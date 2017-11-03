@@ -53,7 +53,7 @@
       <TextField fx:id="finalGrade" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <Label text="Total Final Scaling" GridPane.columnIndex="3" GridPane.rowIndex="4" />
       <TextField fx:id="finalScale" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-      <TableView prefHeight="174.0" prefWidth="458.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="2">
+      <TableView prefHeight="189.0" prefWidth="426.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" GridPane.rowSpan="2">
         <columns>
           <TableColumn prefWidth="155.0" text="Grade Type" />
           <TableColumn prefWidth="134.0" text="Grade Received" />
@@ -61,11 +61,11 @@
         </columns>
       </TableView>
       <Button fx:id="submitGrade" mnemonicParsing="false" text="Submit Grade" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-      <Button fx:id="removeGrade" mnemonicParsing="false" text="Remove Grade" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-      <Button fx:id="calcGrade" mnemonicParsing="false" text="Calculate Course Grade" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+      <Button fx:id="removeGrade" mnemonicParsing="false" text="Remove Grade" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Button fx:id="calcGrade" mnemonicParsing="false" prefHeight="31.0" prefWidth="181.0" text="Calculate Course Grade" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9" />
       <Label text="Course Grade:" GridPane.columnIndex="2" GridPane.rowIndex="11" />
       <TextField fx:id="courseGrade" GridPane.columnIndex="3" GridPane.rowIndex="11" />
-      <Button fx:id="save" mnemonicParsing="false" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Button fx:id="load" mnemonicParsing="false" text="Load" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <Button fx:id="save" mnemonicParsing="false" text="Save" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+      <Button fx:id="load" mnemonicParsing="false" text="Load" GridPane.columnIndex="4" GridPane.rowIndex="8" />
    </children>
 </GridPane>
