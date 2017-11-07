@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Grade;
 
 public class Main extends Application {
 
@@ -43,7 +44,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("design.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../resources/design.fxml"));
         primaryStage.setTitle("Hello World");
         Controller controller = new Controller();
         Scene scene = new Scene(root, 850, 775);
