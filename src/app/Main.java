@@ -1,13 +1,17 @@
 package app;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -33,16 +37,45 @@ public class Main extends Application {
     private Button calcGrade;
 
     private TextField courseGrade;
-    private TableView<String> grades;
+    private TableView grades;
+
+    private final ObservableList<Grade> data = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("design.fxml"));
         primaryStage.setTitle("Hello World");
+        Controller controller = new Controller();
         Scene scene = new Scene(root, 850, 775);
         primaryStage.setScene(scene);
         primaryStage.show();
         setControls(scene);
+        addHandlers(controller);
+    }
+
+    private String getGradeFor(TextField textField) {
+        return textField.getText();
+    }
+
+    private void addHandlers(Controller controller) {
+        submitGrade.setOnAction(e -> addGrade(controller));
+    }
+
+    private void addGrade(Controller controller, String gradeName, TextField textField) {
+        String grade = getGradeFor(textField);
+        if(!grade.equals("")) {
+            controller.addGrade(gradeName,grade,data);
+            textField.clear();
+        }
+    }
+
+    private void addGrade(Controller controller) {
+        addGrade(controller,"Midterm",midtermGrade);
+        addGrade(controller,"Final Exam",finalGrade);
+        addGrade(controller,"Lab",labGrade);
+        addGrade(controller,"Quiz",quizGrade);
+        addGrade(controller,"Homework",hwGrade);
+        addGrade(controller,"Misc",miscGrade);
     }
 
     private void setControls(Scene scene)  {
@@ -67,9 +100,20 @@ public class Main extends Application {
         calcGrade = (Button)getControlById(scene,"calcGrade");
 
         courseGrade = (TextField)getControlById(scene,"courseGrade");
-        grades = (TableView<String>)getControlById(scene,"grades");
+        grades = (TableView)getControlById(scene,"grades");
 
+        TableColumn firstNameCol = new TableColumn("Grade Type");
+        firstNameCol.setMinWidth(320);
+        firstNameCol.setCellValueFactory(
+                new PropertyValueFactory<Grade, String>("type"));
 
+        TableColumn lastNameCol = new TableColumn("Grade Received");
+        lastNameCol.setMinWidth(320);
+        lastNameCol.setCellValueFactory(
+                new PropertyValueFactory<Grade, String>("grade"));
+
+        grades.setItems(data);
+        grades.getColumns().addAll(firstNameCol, lastNameCol);
     }
 
     private Node getControlById(Scene scene, String id) {
