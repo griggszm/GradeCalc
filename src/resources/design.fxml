@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="713.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="21.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="233.0" />
@@ -36,27 +36,27 @@
       <Label text="Add Midterm Grade:" GridPane.columnIndex="1" />
       <TextField fx:id="midtermGrade" GridPane.columnIndex="2" />
       <Label text="Total Midterm Scaling" GridPane.columnIndex="3" />
-      <TextField fx:id="midtermScale" GridPane.columnIndex="4" />
+      <TextField fx:id="midtermScale" text="0.00" GridPane.columnIndex="4" />
       <Label text="Add Lab Grade:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="labGrade" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <Label text="Total Lab Scaling" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-      <TextField fx:id="labScale" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+      <TextField fx:id="labScale" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="1" />
       <Label text="Add Homework Grade:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <TextField fx:id="hwGrade" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <Label text="Total Homework Scaling" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-      <TextField fx:id="hwScale" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+      <TextField fx:id="hwScale" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="3" />
       <Label text="Add Misc Grade:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <TextField fx:id="miscGrade" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <Label text="Total Misc Scaling" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-      <TextField fx:id="miscScale" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+      <TextField fx:id="miscScale" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="4" />
       <Label text="Add Final Grade:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <TextField fx:id="finalGrade" GridPane.columnIndex="2" GridPane.rowIndex="5" />
       <Label text="Total Final Scaling" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <TextField fx:id="finalScale" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+      <TextField fx:id="finalScale" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="5" />
       <TableView fx:id="grades" prefHeight="189.0" prefWidth="426.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="8" GridPane.rowSpan="2" />
       <Button fx:id="submitGrade" mnemonicParsing="false" text="Submit Grade" GridPane.columnIndex="2" GridPane.rowIndex="6" />
       <Button fx:id="removeGrade" mnemonicParsing="false" text="Remove Grade" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-      <Button fx:id="calcGrade" mnemonicParsing="false" prefHeight="31.0" prefWidth="181.0" text="Calculate Course Grade" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+      <Button fx:id="calcGrade" mnemonicParsing="false" prefHeight="31.0" prefWidth="181.0" text="Calculate Course Grade" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="10" />
       <Label text="Course Grade:" GridPane.columnIndex="2" GridPane.rowIndex="12" />
       <TextField fx:id="courseGrade" GridPane.columnIndex="3" GridPane.rowIndex="12" />
       <Button fx:id="save" mnemonicParsing="false" text="Save" GridPane.columnIndex="4" GridPane.rowIndex="8" />
@@ -64,6 +64,7 @@
       <Label prefHeight="21.0" prefWidth="157.0" text="Add Quiz Grade:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Label text="Total Quiz Scaling" GridPane.columnIndex="3" GridPane.rowIndex="2" />
       <TextField fx:id="quizGrade" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <TextField fx:id="quizScale" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+      <TextField fx:id="quizScale" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+      <Button fx:id="clearGrades" mnemonicParsing="false" text="Clear Grades" GridPane.columnIndex="2" GridPane.rowIndex="10" />
    </children>
 </GridPane>

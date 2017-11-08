@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Grade;
+import model.GradeComparator;
 
 public class Main extends Application {
 
@@ -36,6 +37,7 @@ public class Main extends Application {
     private Button load;
     private Button removeGrade;
     private Button calcGrade;
+    private Button clearGrades;
 
     private TextField courseGrade;
     private TableView grades;
@@ -58,8 +60,49 @@ public class Main extends Application {
         return textField.getText();
     }
 
+    private void calcGrade(Controller controller) {
+        courseGrade.setText(controller.calculateFinalGrade(data,getGradeFor(midtermScale),getGradeFor(labScale),
+                getGradeFor(quizScale),getGradeFor(hwScale),getGradeFor(miscScale),getGradeFor(finalScale)));
+    }
+
+    private void ensureNonEmpty(TextField textField) {
+        if(textField.getText().equals("")) {
+            textField.setText("0.00");
+        }
+        try {
+            if (Double.parseDouble(textField.getText()) < 0.00) {
+                textField.setText("0.00");
+            }
+        } catch (NumberFormatException ex) {
+            textField.setText("0.00");
+        }
+    }
+
     private void addHandlers(Controller controller) {
         submitGrade.setOnAction(e -> addGrade(controller));
+        calcGrade.setOnAction(e -> calcGrade(controller));
+        removeGrade.setOnAction(e -> removeGrade(controller));
+        save.setOnAction(e -> save(controller));
+        load.setOnAction(e -> load(controller));
+
+        midtermScale.setOnKeyReleased(e -> ensureNonEmpty(midtermScale));
+        labScale.setOnKeyReleased(e -> ensureNonEmpty(labScale));
+        quizScale.setOnKeyReleased(e -> ensureNonEmpty(quizScale));
+        hwScale.setOnKeyReleased(e -> ensureNonEmpty(hwScale));
+        miscScale.setOnKeyReleased(e -> ensureNonEmpty(miscScale));
+        finalScale.setOnKeyReleased(e -> ensureNonEmpty(finalScale));
+    }
+
+    private void save(Controller controller) {
+        controller.save(data, getGradeFor(midtermScale), getGradeFor(labScale), getGradeFor(quizScale), getGradeFor(hwScale), getGradeFor(miscScale), getGradeFor(finalScale));
+    }
+
+    private void load(Controller controller) {
+        controller.load(data, midtermScale, labScale, quizScale, hwScale, miscScale, finalScale);
+    }
+
+    private void removeGrade(Controller controller) {
+        controller.removeGrade(data,grades.getSelectionModel().getFocusedIndex());
     }
 
     private void addGrade(Controller controller, String gradeName, TextField textField) {
@@ -77,6 +120,7 @@ public class Main extends Application {
         addGrade(controller,"Quiz",quizGrade);
         addGrade(controller,"Homework",hwGrade);
         addGrade(controller,"Misc",miscGrade);
+        data.sort(new GradeComparator());
     }
 
     private void setControls(Scene scene)  {
@@ -99,6 +143,7 @@ public class Main extends Application {
         load = (Button)getControlById(scene,"load");
         removeGrade = (Button)getControlById(scene,"removeGrade");
         calcGrade = (Button)getControlById(scene,"calcGrade");
+        clearGrades = (Button)getControlById(scene,"clearGrades");
 
         courseGrade = (TextField)getControlById(scene,"courseGrade");
         grades = (TableView)getControlById(scene,"grades");
