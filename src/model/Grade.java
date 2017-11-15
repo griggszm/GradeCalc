@@ -2,6 +2,9 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * This class is needed to populate the ListView.
+ */
 public class Grade {
     private final SimpleStringProperty type;
     private final SimpleStringProperty grade;

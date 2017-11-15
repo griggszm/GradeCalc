@@ -2,6 +2,10 @@ package model;
 
 import java.util.Comparator;
 
+/**
+ * Compares two grades.
+ * Currently uses String's comparator. This should be reworked sometime.
+ */
 public class GradeComparator implements Comparator<Grade> {
 
     @Override

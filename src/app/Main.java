@@ -16,6 +16,14 @@ import javafx.stage.Stage;
 import model.Grade;
 import model.GradeComparator;
 
+import javax.swing.*;
+import java.io.IOException;
+
+/**
+ * Main UI of the app.
+ * Most of this is done in the design.fxml and just loaded here.
+ * This sets up all the handlers and event responses.
+ */
 public class Main extends Application {
 
     private TextField midtermGrade;
@@ -44,6 +52,12 @@ public class Main extends Application {
 
     private final ObservableList<Grade> data = FXCollections.observableArrayList();
 
+    /**
+     * Starts the main app, loading from the design and showing controls on screen.
+     *
+     * @param primaryStage  Stage to write on
+     * @throws Exception    Unexpected error
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../resources/design.fxml"));
@@ -54,65 +68,121 @@ public class Main extends Application {
         primaryStage.show();
         setControls(scene);
         addHandlers(controller);
+        controller.readSettings();
     }
 
-    private String getGradeFor(TextField textField) {
+    /**
+     * Gets the text from a textbox.
+     *
+     * @param textField Textbox to get from
+     * @return          The grade/text from the box.
+     */
+    private String getText(TextField textField) {
         return textField.getText();
     }
 
+    /**
+     * Calculates the user's grade using all the other grades/scalings.
+     *
+     * @param controller    Controller who will compute these.
+     */
     private void calcGrade(Controller controller) {
-        courseGrade.setText(controller.calculateFinalGrade(data,getGradeFor(midtermScale),getGradeFor(labScale),
-                getGradeFor(quizScale),getGradeFor(hwScale),getGradeFor(miscScale),getGradeFor(finalScale)));
+        courseGrade.setText(controller.calculateCourseGrade(data, getText(midtermScale), getText(labScale),
+                getText(quizScale), getText(hwScale), getText(miscScale), getText(finalScale)));
     }
 
-    private void ensureNonEmpty(TextField textField) {
-        if(textField.getText().equals("")) {
-            textField.setText("0.00");
-        }
-        try {
-            if (Double.parseDouble(textField.getText()) < 0.00) {
-                textField.setText("0.00");
-            }
-        } catch (NumberFormatException ex) {
-            textField.setText("0.00");
-        }
-    }
 
+    private void clear(Controller controller) {
+        controller.clear(data);
+    }
+    /**
+     * Adds event handlers for buttons and textboxes.
+     *
+     * @param controller    Controller to respond to event.
+     */
     private void addHandlers(Controller controller) {
         submitGrade.setOnAction(e -> addGrade(controller));
         calcGrade.setOnAction(e -> calcGrade(controller));
         removeGrade.setOnAction(e -> removeGrade(controller));
         save.setOnAction(e -> save(controller));
         load.setOnAction(e -> load(controller));
+        clearGrades.setOnAction(e -> clear(controller));
 
-        midtermScale.setOnKeyReleased(e -> ensureNonEmpty(midtermScale));
-        labScale.setOnKeyReleased(e -> ensureNonEmpty(labScale));
-        quizScale.setOnKeyReleased(e -> ensureNonEmpty(quizScale));
-        hwScale.setOnKeyReleased(e -> ensureNonEmpty(hwScale));
-        miscScale.setOnKeyReleased(e -> ensureNonEmpty(miscScale));
-        finalScale.setOnKeyReleased(e -> ensureNonEmpty(finalScale));
+        midtermScale.setOnKeyReleased(e -> controller.ensureNonEmpty(midtermScale));
+        labScale.setOnKeyReleased(e -> controller.ensureNonEmpty(labScale));
+        quizScale.setOnKeyReleased(e -> controller.ensureNonEmpty(quizScale));
+        hwScale.setOnKeyReleased(e -> controller.ensureNonEmpty(hwScale));
+        miscScale.setOnKeyReleased(e -> controller.ensureNonEmpty(miscScale));
+        finalScale.setOnKeyReleased(e -> controller.ensureNonEmpty(finalScale));
+
+        midtermGrade.setOnAction(e -> addGrade(controller));
+        labGrade.setOnAction(e -> addGrade(controller));
+        quizGrade.setOnAction(e -> addGrade(controller));
+        hwGrade.setOnAction(e -> addGrade(controller));
+        miscGrade.setOnAction(e -> addGrade(controller));
+        finalGrade.setOnAction(e -> addGrade(controller));
     }
 
+    /**
+     * Saves the current grades/scalings to a text file.
+     *
+     * @param controller    Controller to handle the saving.
+     */
     private void save(Controller controller) {
-        controller.save(data, getGradeFor(midtermScale), getGradeFor(labScale), getGradeFor(quizScale), getGradeFor(hwScale), getGradeFor(miscScale), getGradeFor(finalScale));
+        controller.save(data, getText(midtermScale), getText(labScale), getText(quizScale),
+                getText(hwScale), getText(miscScale), getText(finalScale));
     }
 
+    /**
+     * Loads the current grades/scalings from a text file.
+     *
+     * @param controller    Controller to handle the loading.
+     */
     private void load(Controller controller) {
-        controller.load(data, midtermScale, labScale, quizScale, hwScale, miscScale, finalScale);
+        try {
+            controller.load(data, midtermScale, labScale, quizScale, hwScale, miscScale, finalScale);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "File not found");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Cannot read input file.");
+        }
     }
 
+    /**
+     * Removes selected grade from the datatable.
+     *
+     * @param controller    Controller to handle the removal
+     */
     private void removeGrade(Controller controller) {
-        controller.removeGrade(data,grades.getSelectionModel().getFocusedIndex());
+        try {
+            controller.removeGrade(data,grades.getSelectionModel().getFocusedIndex());
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "No grade to remove.");
+        }
     }
 
+    /**
+     * Adds a grade to this datatable. This is a helper method to inline
+     * the work of checking for validity and adding if valid.
+     *
+     * @param controller    Controller to handle the adding
+     * @param gradeName     Type of the grade
+     * @param textField     Box containing the grade
+     */
     private void addGrade(Controller controller, String gradeName, TextField textField) {
-        String grade = getGradeFor(textField);
+        String grade = getText(textField);
         if(!grade.equals("")) {
             controller.addGrade(gradeName,grade,data);
             textField.clear();
         }
     }
 
+    /**
+     * Adds all inputed grades.
+     * All grade fields that are filled in will be added.
+     *
+     * @param controller    Controller to handle the adding.
+     */
     private void addGrade(Controller controller) {
         addGrade(controller,"Midterm",midtermGrade);
         addGrade(controller,"Final Exam",finalGrade);
@@ -123,6 +193,12 @@ public class Main extends Application {
         data.sort(new GradeComparator());
     }
 
+    /**
+     * Sets up the controls.
+     * Reads the actual object from the scene using the IDs.
+     *
+     * @param scene Scene to get objects from
+     */
     private void setControls(Scene scene)  {
         midtermGrade = (TextField)getControlById(scene,"midtermGrade");
         quizGrade = (TextField)getControlById(scene,"quizGrade");
@@ -162,11 +238,23 @@ public class Main extends Application {
         grades.getColumns().addAll(firstNameCol, lastNameCol);
     }
 
+    /**
+     * Hepler method to lookup an object
+     *
+     * @param scene Scene to lookup from
+     * @param id    ID to lookup
+     * @return      Object from scene
+     */
     private Node getControlById(Scene scene, String id) {
         return scene.lookup("#" + id);
     }
 
+    /**
+     * Launches app.
+     *
+     * @param args  Ignored.
+     */
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }
