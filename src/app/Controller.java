@@ -102,8 +102,8 @@ public class Controller {
      * @param key   Name of grade type
      * @return      Average grade for this type
      */
-    private int average(ObservableList<Grade> data, String key) {
-        int total = 0;
+    private double average(ObservableList<Grade> data, String key) {
+        double total = 0;
         int count = 0;
         for (Grade grade : data) {
             if (grade.getType().toLowerCase().equals(key.toLowerCase())) {
